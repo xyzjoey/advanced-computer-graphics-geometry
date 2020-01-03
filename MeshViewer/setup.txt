@@ -1,0 +1,7 @@
+1. open CMake
+2. browse source and build
+3. press Configure
+4. press Generate
+5. open .sln in Visual Studio
+8. (set to Release mode)
+7. right click project select build

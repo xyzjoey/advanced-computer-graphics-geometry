@@ -14,43 +14,33 @@ public:
 
 	/*====== Programming Assignment 2 ======*/
 	// This is the place where the editing techniques take place
-	void deform();
-	void setHandler(int handlerInd); //
+	void deform(bool rotationInvariant = true);
+	void setHandleOffset(int handleFlag, Eigen::Vector3f offset);
 	/*====== Programming Assignment 2 ======*/
 
 private:
 	/*====== Programming Assignment 2 ======*/
 	// Build left hand side matrix and pre-factorize it
 	void buildSystemMat();
-	
 
-	int handlerInd; // vertex index of handler // -1 --> none
-	//Mesh* smoothMesh;
+	Eigen::MatrixXf mRotations; // alhpa, beta, gamma
 
-	Eigen::SparseMatrix<float> mLaplacian;
 	Eigen::SparseMatrix<float> mAT;
-	Eigen::SparseMatrix<float> mANormalizeT;
+	Eigen::SparseMatrix<float> mASmoothT;
 	Eigen::VectorXf mb;
-	Eigen::VectorXf mDelta;
-
-	//std::vector<double> mSigmaLengths;
-	std::vector<float> mRoiDeltaLengths;
-
-	//const bool mCOTWEIGHT = true;
-	const bool mLOCALTRANSFORM = false;
+	Eigen::VectorXf mbSmooth;
 	
-	std::vector<int> mVtxToHandleMap;
-
 	/*====== Programming Assignment 2 ======*/
 
 	void clear();
 
 	Mesh* mMesh;
+	Mesh* mMeshSmooth;
 	std::vector< Vertex* > mRoiList; // unconstrained vertices
 	std::vector< Vertex* > mHandleList; // constrained vertices
 	// Solver for pre-factorizing the system matrix of the deformation
 	Eigen::SimplicialLDLT< Eigen::SparseMatrix< double > >* mCholeskySolver;
-	Eigen::SimplicialLDLT< Eigen::SparseMatrix< double > >* mCholeskySolverNormalize;
+	Eigen::SimplicialLDLT< Eigen::SparseMatrix< double > >* mCholeskySolverSmooth;
 };
 
 #endif // DEFORMER_H

@@ -452,6 +452,7 @@ Viewer3D::Viewer3D() : mWindow(nullptr),
 	mUseCotWeights = false;
 	mSmoothScheme = SmoothScheme::Explicit;
 	mHandleState = HandleState::Add;
+	mUseRotationInvariant = true;
 	mSelectedHandle = 0;
 	mDeformer = new Deformer();
 }
@@ -545,7 +546,7 @@ bool Viewer3D::mouseMove(int mouse_x, int mouse_y) {
 			camera->orbitRight(orbitLen, diffX / 4.0);
 			camera->orbitDown(orbitLen, diffY / 4.0);
 		}
-	} else if (mMouseDownButton == MouseButton::Right) {
+	} else if (mMouseDownButton == MouseButton::Right && mHandleState == HandleState::Move) {
 		if (diffX != 0 || diffY != 0) {
 			moveHandle(lastX, lastY, mMouseCurrentX, mMouseCurrentY);
 		}
@@ -681,6 +682,7 @@ int Viewer3D::launchInit() {
 
 	mNGui->addVariable< HandleState >("Handle", mHandleState)
 	     ->setItems({"Add", "Move"});
+	mNGui->addVariable("Rotation invariant", mUseRotationInvariant);
 	mNGui->addButton("Build", [&]()
                 {
 	                buildDeformMat();
@@ -851,7 +853,6 @@ int Viewer3D::selectHandle(float mouseX, float mouseY) {
 			minIndex = vidx;
 		}
 	}
-	mDeformer->setHandler(minIndex);
 	return (minIndex != -1) ? vertices[minIndex]->flag() : 0;
 }
 
@@ -877,7 +878,8 @@ void Viewer3D::moveHandle(float lastMouseX, float lastMouseY,
 	}
 
 	if (mDeformer) {
-		mDeformer->deform();
+		mDeformer->setHandleOffset(mSelectedHandle, offset);
+		mDeformer->deform(mUseRotationInvariant);
 		mMesh->setVertexPosDirty(true);
 	}
 }

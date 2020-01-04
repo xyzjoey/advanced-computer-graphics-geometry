@@ -170,6 +170,7 @@ class Mesh {
 
 public:
 	Mesh();
+	Mesh(const Mesh* other);
 	~Mesh();
 
 	// Access functions

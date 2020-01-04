@@ -3,6 +3,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include <vector>
+#include "mesh.h"
 
 struct Triplets //for sparse matrix initialization
 {
@@ -21,6 +22,9 @@ Eigen::SparseMatrix<float> sparseI(int size);
 
 double cotWeight(Vertex* p, Vertex* pNbr, Vertex* pNbrPrev, Vertex* pNbrNext);
 
-float euclidean(float x, float y, float z);
+Vertex* firstNeighbor(Vertex* v);
+double euclidean(double x, double y, double z);
+Eigen::Vector3f project(Eigen::Vector3f v, Eigen::Vector3f u);
+Eigen::Vector3f projectPlane(Eigen::Vector3f v, Eigen::Vector3f normal);
 
 #endif

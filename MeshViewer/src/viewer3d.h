@@ -137,6 +137,7 @@ private:
 	SmoothScheme mSmoothScheme;
 	bool mUseCotWeights;
 	HandleState mHandleState;
+	bool mUseRotationInvariant;
 	int mSelectedHandle;
 	Deformer* mDeformer;
 };

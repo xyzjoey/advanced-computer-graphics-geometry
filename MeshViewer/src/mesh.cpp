@@ -262,6 +262,41 @@ Mesh::~Mesh() {
 	clear();
 }
 
+Mesh::Mesh(const Mesh* other) {
+	if (other == nullptr) return;
+
+	const Eigen::MatrixX3i& F = other->mFaceMat;
+
+	int vtxNum = other->mVertexList.size();
+	int faceNum = other->mFaceList.size();
+
+	// vertices
+	for (int i = 0; i < vtxNum; ++i) {
+		mVertexList.push_back(new Vertex(other->mVertexList[i]->position()));
+		mVertexList[i]->setNormal(other->mVertexList[i]->normal());
+	}
+
+	// faces
+	for (int i = 0; i < faceNum; ++i) {
+		addFace(F(i, 0), F(i, 1), F(i, 2));
+	}
+
+	std::vector< HEdge* > hedgeList;
+	for (int i = 0; i < mBHEdgeList.size(); ++i) {
+		if (mBHEdgeList[i]->start()) {
+			hedgeList.push_back(mBHEdgeList[i]);
+		}
+		// TODO
+	}
+	mBHEdgeList = hedgeList;
+
+	for (int i = 0; i < mVertexList.size(); ++i) {
+		mVertexList[i]->adjHEdges.clear();
+		mVertexList[i]->setIndex(i);
+		mVertexList[i]->setFlag(0);
+	}
+}
+
 const std::vector< HEdge* >& Mesh::edges() const {
 	return mHEdgeList;
 }
@@ -683,8 +718,8 @@ void Mesh::computeVertexNormals() {
 void Mesh::umbrellaSmooth(bool cotangentWeights) {
 	/*====== Programming Assignment 1 ======*/
 
-	float LAMBDA = 1;
-	int vtxNum = mVertexList.size();
+	const float LAMBDA = 1;
+	const int vtxNum = mVertexList.size();
 
 	std::vector<std::vector<int>> neighborInds(vtxNum);
 	Eigen::MatrixXf P(vtxNum, 3);
@@ -836,28 +871,31 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights) {
 	/* Please refer to the following link about the sparse matrix construction in Eigen. */
 	/* http://eigen.tuxfamily.org/dox/group__TutorialSparse.html#title3 */
 
-	float LAMBDA = 10;
-	int MAX_ITER = 20;
-	float ERROR_TOL = 1e-6;
-	int vtxNum = mVertexList.size();
+	// constant
+	const float LAMBDA = 10;
+	const int MAX_ITER = 20;
+	const float ERROR_TOL = 1e-6;
+	const int vtxNum = mVertexList.size();
 
+	// initialize
 	std::vector<std::vector<int>> neighborInds(vtxNum);
 	Eigen::VectorXf Px(vtxNum), Py(vtxNum), Pz(vtxNum);
 	Eigen::VectorXf PxNew, PyNew, PzNew;
 	Eigen::SparseMatrix<float> L;
 
-	//Prepare neighborInds (indices of neighboring vertices)
+	// get neighborInds (indices of neighboring vertices)
 	for (int i = 0; i < vtxNum; ++i) {
 		OneRingVertex ring(mVertexList[i]);
 		Vertex* neighbor = nullptr;
 		while (neighbor = ring.nextVertex()) neighborInds[i].push_back(neighbor->index());
 	}
 
-	//Prepare Px Py Pz (position matrix)
+	// set Px Py Pz (position matrix)
 	for (int i = 0; i < vtxNum; ++i) Px(i) = mVertexList[i]->position()[0];
 	for (int i = 0; i < vtxNum; ++i) Py(i) = mVertexList[i]->position()[1];
 	for (int i = 0; i < vtxNum; ++i) Pz(i) = mVertexList[i]->position()[2];
 
+	// compute L
 	if (cotangentWeights) {
 		/**********************************************/
 		/*          Insert your code here.            */
@@ -886,7 +924,7 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights) {
 			return cotWeight(p, pNbr, pNbrPrev, pNbrNext);
 		};
 
-		//Prepare L
+		// set L
 		Triplets::reset(vtxNum * 10);
 		for (int i = 0; i < vtxNum; ++i) {
 			Triplets::push(i, i, -1);
@@ -907,7 +945,7 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights) {
 		/* sparse linear systems.
 		/**********************************************/
 
-		//Prepare L
+		// set L
 		Triplets::reset(vtxNum * 10);
 		for (int i = 0; i < vtxNum; ++i) {
 			Triplets::push(i, i, -1);
@@ -917,13 +955,13 @@ void Mesh::implicitUmbrellaSmooth(bool cotangentWeights) {
 		L = Triplets::createMatrix(vtxNum, vtxNum);
 	}
 
-	//Compute PxNew, PyNew, PzNew
+	// solve PxNew, PyNew, PzNew
 	Eigen::SparseMatrix<float> A = sparseI(vtxNum) - LAMBDA * L;
 	fnConjugateGradient(A, Px, MAX_ITER, ERROR_TOL, PxNew);
 	fnConjugateGradient(A, Py, MAX_ITER, ERROR_TOL, PyNew);
 	fnConjugateGradient(A, Pz, MAX_ITER, ERROR_TOL, PzNew);
 
-	//Assign PxNew, PyNew, PzNew to vertices
+	// assign PxNew, PyNew, PzNew to vertices
 	for (int i = 0; i < vtxNum; ++i) mVertexList[i]->setPosition(Eigen::Vector3f(PxNew[i], PyNew[i], PzNew[i]));
 
 	/*====== Programming Assignment 1 ======*/

@@ -43,8 +43,8 @@ Output:
   <th colspan="2">Original</th>
   </tr>
   <tr>
-    <td colspan="2">
-      <p align="center"><img src="img/ass2_0.png" height="300"></p>
+    <td colspan="2" align="center">
+      <img src="img/ass2_0.png" height="300">
     </td>
   </tr>
   <tr>
@@ -52,10 +52,10 @@ Output:
     <th>Rotation invariant</th>
   </tr>
   <tr>
-    <td>
-      <p align="center"><img src="img/ass2_1_1.png"><img src="img/ass2_1_2.png"><br/><br/></p>
+    <td align="center">
+      <img src="img/ass2_1_1.png"><img src="img/ass2_1_2.png"><br/><br/>
     </td>
-    <td><p align="center"><img src="img/ass2_2_1.png"><img src="img/ass2_2_2.png"><br/>(only works for small resolution details)</p></td>
+    <td align="center"><img src="img/ass2_2_1.png"><img src="img/ass2_2_2.png"><br/>(only works for small resolution details)</td>
   </tr>
 </table>
 

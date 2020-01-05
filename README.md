@@ -21,6 +21,7 @@ Explicit/implicit Laplacian smoothing with uniform/cotangent weights
 Core functions: Mesh::umbrellaSmooth, Mesh::implicitUmbrellaSmooth
 
 Output:
+
 |               | Explicit (λdt=1)    | Implicit (λdt=10)   |
 | :-----------: | :-----------------: | :-----------------: |
 | **Uniform**   | ![](img/ass1_1.gif) | ![](img/ass1_3.gif) |
@@ -52,7 +53,7 @@ Output:
   </tr>
   <tr>
     <td>
-      <p align="center"><img src="img/ass2_1_1.png"><img src="img/ass2_1_2.png"></p>
+      <p align="center"><img src="img/ass2_1_1.png"><img src="img/ass2_1_2.png"><br/><br/></p>
     </td>
     <td><p align="center"><img src="img/ass2_2_1.png"><img src="img/ass2_2_2.png"><br/>(only work for small resolution details)</p></td>
   </tr>

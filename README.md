@@ -16,7 +16,7 @@ HKUST 2019-2020 Fall COMP5411 (geometry part)
 3. compute vertex normal
 
 ## Assignment 1
-Explicit/implicit Laplacian smoothing with uniform/cotangent weights
+### Explicit/implicit Laplacian smoothing with uniform/cotangent weights
 
 Core functions: Mesh::umbrellaSmooth, Mesh::implicitUmbrellaSmooth
 
@@ -31,7 +31,7 @@ Reference:
 - Desbrun et al. 1999. Implicit Fairing of Irregular Meshes using Diffusion and Curvature Flow
 
 ## Assignment 2
-Laplacian surface editing
+### Laplacian surface editing
 
 Extra: rotation invariant
 

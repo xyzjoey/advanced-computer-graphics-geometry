@@ -55,7 +55,7 @@ Output:
     <td>
       <p align="center"><img src="img/ass2_1_1.png"><img src="img/ass2_1_2.png"><br/><br/></p>
     </td>
-    <td><p align="center"><img src="img/ass2_2_1.png"><img src="img/ass2_2_2.png"><br/>(only work for small resolution details)</p></td>
+    <td><p align="center"><img src="img/ass2_2_1.png"><img src="img/ass2_2_2.png"><br/>(only works for small resolution details)</p></td>
   </tr>
 </table>
 

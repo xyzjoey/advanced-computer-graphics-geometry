@@ -277,6 +277,8 @@ void ViewerData::updateVertexInfo() {
 		mMeshShader->bind();
 		mMeshShader->uploadAttrib("vin_position", mMeshVertices);
 
+		setShadeMode(mShadeMode); // update normal
+
 		const std::vector< HEdge* >& hedges = mMesh->edges();
 		int numHEdges = hedges.size();
 		const std::vector< HEdge* > bhedges = mMesh->boundaryEdges();

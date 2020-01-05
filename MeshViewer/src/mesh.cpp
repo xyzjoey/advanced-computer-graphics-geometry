@@ -684,7 +684,7 @@ void Mesh::computeVertexNormals() {
 
 	/*====== Programming Assignment 0 ======*/
 	
-		//helper
+	//helper
 	auto vector = [](Vertex* start, Vertex* end) { return end->position() - start->position(); };
 
 	//for each vertex

@@ -1,4 +1,4 @@
-# advanced-computer-graphics-geometry
+# Advanced Computer Graphics (geometry)
 HKUST 2019-2020 Fall COMP5411 (geometry part)
 
 ## Setup
@@ -20,7 +20,7 @@ HKUST 2019-2020 Fall COMP5411 (geometry part)
 
 Core functions: Mesh::umbrellaSmooth, Mesh::implicitUmbrellaSmooth
 
-Output:
+Result:
 
 |               | Explicit (λdt=1)    | Implicit (λdt=10)   |
 | :-----------: | :-----------------: | :-----------------: |
@@ -37,10 +37,10 @@ Extra: rotation invariant
 
 Core functions: Deformer::buildSystemMat, Deformer::deform
 
-Output:
+Result:
 <table>
   <tr>
-  <th colspan="2">Original</th>
+  <th colspan="2">Original mesh</th>
   </tr>
   <tr>
     <td colspan="2" align="center">
